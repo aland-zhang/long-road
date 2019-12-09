@@ -1,0 +1,15 @@
+arbiter:
+  image: hub.pingcap.net/longroad/arbiter:7acad5c5
+  # image: hub.pingcap.net/cosven/arbiter:3.0.1
+
+  config:
+    # upstream config
+    kafkaAddr: "binlog-test-2-kafka:9092"
+    kafkaVersion: "2.0.1"
+    topic: "6765744907553514207_obinlog"
+
+    # downstream config
+    dbhost: binlog-test-2-targetdb-tidb-tidb
+    dbport: 4000
+    dbuser: root
+    dbpassword: ""

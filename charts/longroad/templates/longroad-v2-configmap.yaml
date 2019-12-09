@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: longroad-v2
+data:
+  config.yml: |
+    sourcedb:
+      host: sourcedb-tidb
+      port: 4000
+      user: root
+      password: ""
+      type: tidb
+      name: sourcedb
+    
+    targetdbs:
+      - name: targetdb-mysql
+        type: mysql
+        host: targetdb-mysql
+        port: 3306
+        user: root
+        password: ngXripIIzx
+      - name: targetdb-tidb
+        type: tidb
+        host: targetdb-tidb-tidb
+        port: 4000
+        user: root
+        password: ""
+    
+    slackToken: "xoxb-4364814803-616303057120-8dkwu0gAdbek9Z4Kak1srG9a"

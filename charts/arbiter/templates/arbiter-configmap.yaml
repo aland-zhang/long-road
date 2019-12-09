@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "arbiterConfig.name" . }}
+data:
+  config-arbiter.toml: |
+    # Arbiter Configuration.
+
+    # addr (i.e. 'host:port') to listen on for Arbiter connections
+    # addr = "127.0.0.1:8251"
+    log-level = "debug"
+
+    [up]
+    # if arbiter donesn't have checkpoint, use initial commitTS to initial checkpoint
+    initial-commit-ts = 0
+    kafka-addrs = "{{ .Values.arbiter.config.kafkaAddr }}"
+    kafka-version = "{{ .Values.arbiter.config.kafkaVersion }}"
+    # topic name of kafka to consume binlog
+    topic = "{{ .Values.arbiter.config.topic }}"
+
+    [down]
+    host = "{{ .Values.arbiter.config.dbhost }}"
+    port = {{ .Values.arbiter.config.dbport }}
+    user = "{{ .Values.arbiter.config.dbuser }}"
+    password = "{{ .Values.arbiter.config.dbpassword }}"
+    # max concurrent write to downstream
+    # worker-count = 16
+    # max DML operation in a transaction when write to downstream
+    # batch-size = 64

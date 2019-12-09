@@ -1,0 +1,19 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: tick-10min
+spec:
+  schedule: "*/20 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: curl
+            image: hub.pingcap.net/longroad/curl
+            imagePullPolicy: Always
+            args: 
+              - "-X"
+              - "POST"
+              - "http://172.16.4.61:32333/api/v1/check_tick_10min"
+          restartPolicy: OnFailure

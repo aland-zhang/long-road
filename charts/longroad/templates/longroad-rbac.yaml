@@ -1,0 +1,20 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: longroad
+  labels:
+    longroad: longroad
+rules:
+- apiGroups: ["extensions", "apps", "", "batch"]
+  resources:
+  - pods
+  - pods/status
+  - pods/log
+  - services
+  - services/status
+  - endpoints
+  - endpoints/status
+  - deployments
+  - configmaps
+  - jobs
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]

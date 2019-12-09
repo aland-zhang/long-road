@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "arbiter.name" . }}
+  labels:
+    longroad: arbiter
+    app: {{ template "arbiter.name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      longroad: arbiter
+      app: {{ template "arbiter.name" . }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: {{ template "arbiter.name" . }}
+      labels:
+        longroad: arbiter
+        app: {{ template "arbiter.name" . }}
+    spec:
+      containers:
+        - name: arbiter
+          image: {{ .Values.arbiter.image }}
+          args: ["-config", "/etc/config/config-arbiter.toml"]
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ template "arbiterConfig.name" . }}

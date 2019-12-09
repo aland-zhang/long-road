@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: longroad
+  labels:
+    longroad: longroad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      longroad: longroad
+  template:
+    metadata:
+      name: longroad
+      labels:
+        longroad: longroad
+    spec:
+      serviceAccountName: longroad
+      containers:
+        - name: longroad
+          image: hub.pingcap.net/longroad/longroad-server:latest
+          imagePullPolicy: Always
+          env:
+          - name: CONFIG
+            value: /etc/config/config.yml
+          - name: INCLUSTER
+            value: "true"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+          ports:
+            - containerPort: 8080
+      volumes:
+        - name: config-volume
+          configMap:
+            name: longroad-v2

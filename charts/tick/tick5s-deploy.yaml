@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: longroad-tick5s
+  labels:
+    app: tick5s
+    longroad: tick
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      longroad: tick
+      app: tick5s
+  template:
+    metadata:
+      name: longroad-tick5s
+      labels:
+        longroad: tick
+        app: tick5s
+    spec:
+      containers:
+        - name: longroad
+          image: hub.pingcap.net/longroad/curl
+          imagePullPolicy: Always
+          command:
+            - "/bin/sh"
+            - "-c"
+            - "--"
+          args:
+              - "while true; do sleep 10; echo; /usr/bin/curl -s -X POST 'http://172.16.4.61:32333/api/v1/check_tick_5s'; done;"
+      restartPolicy: Always

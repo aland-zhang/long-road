@@ -1,0 +1,21 @@
+{{- if .Values.binlog.drainerKafka.create }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "cluster.name" . }}-drainer-kafka
+  labels:
+    app.kubernetes.io/name: {{ template "chart.name" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: drainer-kafka
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+"  "_" }}
+spec:
+  clusterIP: None
+  ports:
+  - name: drainer
+    port: 8249
+  selector:
+    app.kubernetes.io/name: {{ template "chart.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: drainer-kafka
+{{- end }}
